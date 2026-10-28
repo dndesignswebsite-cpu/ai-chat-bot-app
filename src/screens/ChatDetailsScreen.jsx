@@ -178,7 +178,7 @@ export default function ChatDetailsScreen({ route }) {
           <View style={styles.infoContent}>
             <Text style={styles.infoTitle}>AI Chat Conversation</Text>
             <Text style={styles.infoSubtitle}>
-              Website chatbot history jehdf
+              Website chatbot history
             </Text>
           </View>
 

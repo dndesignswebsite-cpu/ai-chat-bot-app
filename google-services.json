@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "673352813028",
+    "project_id": "dn-designs-chat-notifications",
+    "storage_bucket": "dn-designs-chat-notifications.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673352813028:android:9cfcbb189f900ddbd19ff1",
+        "android_client_info": {
+          "package_name": "com.preetkatara.chatapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFK3YbiUiyAlwfbTaPp066wuAAV4RMGOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

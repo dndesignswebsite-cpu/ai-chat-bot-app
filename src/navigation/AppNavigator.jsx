@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 
 import {
@@ -23,12 +22,18 @@ import {
   removeToken,
 } from "../storage/authStorage";
 
+import { usePushNotifications } from "../services/pushNotifications";
+
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [authToken, setAuthToken] = useState(null);
+
+  // Register push notifications whenever a valid login token is available.
+  usePushNotifications(authToken);
 
   useEffect(() => {
     let mounted = true;
@@ -38,12 +43,14 @@ export default function AppNavigator() {
         const token = await getToken();
 
         if (mounted) {
+          setAuthToken(token);
           setIsLoggedIn(Boolean(token));
         }
       } catch (error) {
         console.log("Session check error:", error);
 
         if (mounted) {
+          setAuthToken(null);
           setIsLoggedIn(false);
         }
       } finally {
@@ -59,6 +66,19 @@ export default function AppNavigator() {
       mounted = false;
     };
   }, []);
+
+  // Called after successful login.
+  const handleLogin = async () => {
+    try {
+      const token = await getToken();
+
+      setAuthToken(token);
+      setIsLoggedIn(Boolean(token));
+    } catch (error) {
+      console.log("Login token error:", error);
+      Alert.alert("Error", "Unable to load your login session.");
+    }
+  };
 
   const handleLogout = () => {
     Alert.alert(
@@ -76,10 +96,9 @@ export default function AppNavigator() {
             try {
               setLoggingOut(true);
 
-              // Remove the saved authentication token.
               await removeToken();
 
-              // Return to the login screen.
+              setAuthToken(null);
               setIsLoggedIn(false);
             } catch (error) {
               console.log("Logout error:", error);
@@ -181,7 +200,7 @@ export default function AppNavigator() {
             {(props) => (
               <LoginScreen
                 {...props}
-                onLogin={() => setIsLoggedIn(true)}
+                onLogin={handleLogin}
               />
             )}
           </Stack.Screen>
